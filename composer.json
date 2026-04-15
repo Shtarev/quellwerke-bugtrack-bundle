@@ -1,0 +1,33 @@
+{
+    "name": "quellwerke/quellwerke-bugtrack-bundle",
+    "description": "Quellwerke Bugtrack Bundle for Pimcore",
+    "type": "pimcore-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "AndreyS",
+            "email": "shtarev@quellwerke.de",
+            "homepage": "https://www.quellwerke.de/",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=8.0",
+        "symfony/framework-bundle": "^5.0 || ^6.0 || ^7.0 || ^8.0",
+        "symfony/console": "^5.0 || ^6.0 || ^7.0 || ^8.0",
+        "pimcore/pimcore": "^10.0 || ^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Quellwerke\\QuellwerkeBugtrackBundle\\": "src/QuellwerkeBugtrackBundle/"
+        }
+    },
+    "extra": {
+        "symfony": {
+            "bundles": [
+                "Quellwerke\\QuellwerkeBugtrackBundle\\QuellwerkeBugtrackBundle"
+            ]
+        }
+    }
+}

@@ -1,0 +1,12 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Quellwerke\QuellwerkeBugtrackBundle\:
+    resource: '../../*'
+    exclude:
+      - '../../DependencyInjection/'
+      - '../../Resources/'
+      - '../../Installer/'
