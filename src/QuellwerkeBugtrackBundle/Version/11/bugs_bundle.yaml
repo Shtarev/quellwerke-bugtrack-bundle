@@ -1,3 +1,0 @@
-example_bundle:
-  resource: '@QuellwerkeBugtrackBundle/Controller/'
-  type: attribute
