@@ -14,12 +14,14 @@ class BugController extends AbstractController
     public function index(Request $request): JsonResponse
     {
         $message = $request->request->get('value');
-        $fileName = 'bug_message__' . date('d-m-Y_H-i-s') . '.json';
+        $time = date('d-m-Y_H-i-s');
+        $fileName = 'bug_message__' . $time . '.json';
 
         $response = [
             'status' => 'ok',
             'message' => $message,
             'fileName' => $fileName,
+            'time' => $time,
             'result' => 'The request has been received and processed',
             'backLog' => $this->backLog(),
             'frontLog' => $this->frontLog($request)
