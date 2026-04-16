@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BugController extends AbstractController
 {
-    #[Route('/admin/bugs', name: 'admin_bugs')]
+    #[Route('/admin/bugtrack/bugs', name: 'admin_bugs')]
     public function index(): Response
     {
         return new Response('HALLO BugtrackBundle!!!');
