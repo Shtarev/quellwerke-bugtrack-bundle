@@ -21,7 +21,7 @@ quellwerke.bugtrack = Class.create({
 
             li.onclick = () => {
                 const win = new Ext.Window({
-                    title: "My Dialog",
+                    title: "Notify about the error",
                     width: 400,
                     modal: true,
                     layout: "fit",
@@ -37,7 +37,7 @@ quellwerke.bugtrack = Class.create({
                             items: [
                                 {
                                     xtype: "textfield",
-                                    fieldLabel: "Enter a value",
+                                    fieldLabel: "Your message",
                                     name: "my_input",
                                     allowBlank: false,
                                     emptyText: "Enter something..."
@@ -59,21 +59,32 @@ quellwerke.bugtrack = Class.create({
 
                                 const values = form.getValues();
 
-                                console.log("Input value:", values.my_input);
+                                //console.log("Input value:", values.my_input);
 
-                                // You can call the Symfony endpoint here via AJAX.
                                 Ext.Ajax.request({
-                                    url: "/admin/my-endpoint", // TODO: This is the real address here.
+                                    url: "/admin/bugtrack/bugs",
                                     method: "POST",
                                     params: {
                                         value: values.my_input
                                     },
                                     success: function (response) {
+                                        let data = Ext.decode(response.responseText);
                                         pimcore.helpers.showNotification(
                                             "Success",
-                                            "The data has been sent",
+                                            data.result,
                                             "success"
                                         );
+                                        // create and download a file
+                                        let json = JSON.stringify(data, null, 2);
+                                        let blob = new Blob([json], { type: "application/json" });
+                                        let url = URL.createObjectURL(blob);
+
+                                        let a = document.createElement("a");
+                                        a.href = url;
+                                        a.download = data.fileName;
+                                        a.click();
+
+                                        URL.revokeObjectURL(url);
                                     }
                                 });
                                 
