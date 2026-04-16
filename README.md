@@ -40,5 +40,5 @@ php bin/console quellwerke:bugs:command
 
 ### Check rout:
 ```
-www.yousite.com/admin/bugs
+www.yousite.com/admin/bugtrack/bugs
 ```
