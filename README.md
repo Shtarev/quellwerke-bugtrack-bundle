@@ -28,7 +28,6 @@ composer require quellwerke/quellwerke-bugtrack-bundle:dev-master
 ### 4. run the composer install
 ```
 composer install
-composer dump-autoload
 ```
 
 The bundle is installed in "vendor/quellwerke/quellwerke-bugtrack-bundle".
