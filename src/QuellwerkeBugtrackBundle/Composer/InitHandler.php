@@ -18,7 +18,7 @@ class InitHandler
 
         self::versionAdapter($projectRoot, $pimVersion);
 
-        /* >>> If needed, also add any additional configurations. */
+        /* HERE:>>> If needed, also add any additional configurations. */
 
     }
 
@@ -34,7 +34,7 @@ class InitHandler
         $content = file_get_contents($bundlesInclude);
         $bundleLine = "Quellwerke\QuellwerkeBugtrackBundle\QuellwerkeBugtrackBundle::class => ['all' => true],";
 ;
-        if (strpos($content, $bundleLine) === false) { // Check if the bundle is already registered
+        if (strpos($content, $bundleLine) === false) {
             $content = str_replace(<<<REP
 return [
 REP, <<<LACE
@@ -56,33 +56,7 @@ LACE, $content);
         
         copy($source . 'QuellwerkeBugtrackBundle.php', $target . 'QuellwerkeBugtrackBundle.php');
         copy($source . 'bugtrack.js', $target . 'Resources' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'bugtrack.js');
-        // routes from a controller
-        if($pimVersion == 10) {
-            // TODO: routes from a controller for Pimcore version 10
-        }
-        if($pimVersion == 11) {
-            copy($source . 'bugs_bundle.yaml', $target . 'Resources' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'bugs_bundle.yaml');
-            // TODO: Maybe there is another solution, such as symbolic links.
-            $res = self::routAdd($projectRoot);
-        }
+        copy($source . 'quellwerke_bugtrack_bundle.yaml', $projectRoot . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'routes' . DIRECTORY_SEPARATOR . 'quellwerke_bugtrack_bundle.yaml');
     }
 
-    /**
-     * Register routes from a controller
-     * @param string $projectRoot
-     * @return bool
-     */
-    private static function routAdd($projectRoot): bool
-    {
-        $result = true;
-        $source = $projectRoot . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'quellwerke' . DIRECTORY_SEPARATOR . 'quellwerke-bugtrack-bundle' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'QuellwerkeBugtrackBundle' . DIRECTORY_SEPARATOR . 'Resources' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'bugs_bundle.yaml';
-        $dir = $projectRoot . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'routes';
-        $target = $dir . DIRECTORY_SEPARATOR . 'bugs_bundle.yaml';
-        if (is_dir($dir)) {
-            copy($source, $target);
-        } else {
-            $result = false;
-        }
-        return $result;
-    }
 }
