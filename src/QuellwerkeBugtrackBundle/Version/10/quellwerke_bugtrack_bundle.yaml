@@ -1,0 +1,2 @@
+quellwerke_bugtrack_bundle:
+    resource: '@QuellwerkeBugtrackBundle/Resources/config/routes.yaml'
