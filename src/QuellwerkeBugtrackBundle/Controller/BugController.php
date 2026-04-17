@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Pimcore\Config;
 
 class BugController extends AbstractController
 {
@@ -26,6 +27,12 @@ class BugController extends AbstractController
             'backLog' => $this->backLog(),
             'frontLog' => $this->frontLog($request)
         ];
+
+        $emails = $this->debugEmails();
+
+        if($emails) {
+            // TODO: Send messages with a JSON file to all addresses from $emails
+        }
 
 
         /* If it is necessary to save the file on the server. */
@@ -60,5 +67,31 @@ class BugController extends AbstractController
             'bugLog_2' => 'text example 2',
             'bugLog_3' => 'text example 3'
         ];
+    }
+
+    /**
+     * From System Settings, retrieve Debug Email Addresses (CSV)
+     * @return array
+     */
+    private function debugEmails(): array
+    {
+        $emails = [];
+        $config = Config::getSystemConfiguration();
+        $emailsCsv = $config['email']['debug']['email_addresses'] ?? null;
+        if($emailsCsv) {
+            $emails = array_filter(array_map('trim', explode(',', $emailsCsv)));
+        }
+        if($emails==[]) {
+            $db = \Pimcore\Db::get();
+            $data = $db->fetchOne("
+                SELECT data 
+                FROM settings_store 
+                WHERE `id` = 'system_settings'
+            ");
+            $config = json_decode($data, true);
+            $emailsCsv = $config['email']['debug']['email_addresses'] ?? null;
+            $emails = array_filter(array_map('trim', explode(',', $emailsCsv)));
+        }
+        return $emails;
     }
 }
