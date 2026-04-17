@@ -49,4 +49,4 @@ pimcore:
             name: ''
             email: ''
 ```
-Also specify the support email address in the Pimcore admin panel under “Pimcore Settings -> System Settings -> Debug -> Debug Email Addresses (CSV)”.
+Also specify the support email address in the Pimcore admin panel under “Settings -> System Settings -> Debug -> Debug Email Addresses (CSV)”.
