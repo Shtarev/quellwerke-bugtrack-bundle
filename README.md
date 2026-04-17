@@ -41,3 +41,17 @@ php bin/console quellwerke:bugs:command
 ```
 www.yousite.com/admin/bugtrack/bugs
 ```
+## Additional settings.
+### Sending email notifications.
+Make sure that in the file "config/config.yaml" you have specified the sender email details required for sending data via email:
+```
+pimcore:
+    email:
+        sender:
+            name: 'Example Customer'
+            email: example@mail.com
+        return:
+            name: ''
+            email: ''
+```
+Also specify the support email address in the Pimcore admin panel under “Pimcore Settings -> System Settings -> Debug -> Debug Email Addresses (CSV)”.
