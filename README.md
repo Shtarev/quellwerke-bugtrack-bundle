@@ -36,7 +36,7 @@ composer install
 
 The bundle is installed in "vendor/quellwerke/quellwerke-bugtrack-bundle".
 
-## Additional settings.
+## Additional settings:
 ### Sending email notifications.
 Make sure that in the file "config/config.yaml" you have specified the sender email details required for sending data via email:
 ```
