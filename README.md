@@ -36,15 +36,6 @@ composer install
 
 The bundle is installed in "vendor/quellwerke/quellwerke-bugtrack-bundle".
 
-### Check command:
-```
-php bin/console quellwerke:bugs:command
-```
-
-### POST route for sending a message:
-```
-www.yousite.com/admin/bugtrack/bugs
-```
 ## Additional settings.
 ### Sending email notifications.
 Make sure that in the file "config/config.yaml" you have specified the sender email details required for sending data via email:
