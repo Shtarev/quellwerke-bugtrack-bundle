@@ -6,13 +6,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Quellwerke\QuellwerkeBugtrackBundle\Service\EmailService;
 use Pimcore\Config;
 
 class BugController extends AbstractController
 {
 
     #[Route('/admin/bugtrack/bugs', name: 'admin_bugs', methods:['post'])]
-    public function index(Request $request): JsonResponse
+    public function index(Request $request, EmailService $emailService): JsonResponse
     {
         $message = $request->request->get('value');
         $time = date('d-m-Y_H-i-s');
@@ -23,17 +24,25 @@ class BugController extends AbstractController
             'message' => $message,
             'fileName' => $fileName,
             'time' => $time,
-            'result' => 'The request has been received and processed',
+            'result' => 'The request has been received and processed.',
             'backLog' => $this->backLog(),
             'frontLog' => $this->frontLog($request)
         ];
 
         $emails = $this->debugEmails();
 
+        // Send messages with a JSON file to all addresses from $emails
+        $sendResult = false;
         if($emails) {
-            // TODO: Send messages with a JSON file to all addresses from $emails
+            $jsonFile = json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
+            $sendResult = $emailService->sendMail($emails, $jsonFile, $fileName, $message);
         }
-
+        if($sendResult) {
+            $response['result'] .= ' A notification has been sent to the support email address.';
+        }
+        else {
+            $response['result'] .= ' Please forward the downloaded file to the support team.';
+        }
 
         /* If it is necessary to save the file on the server. */
         // $projectRoot = dirname(__DIR__, 6);
