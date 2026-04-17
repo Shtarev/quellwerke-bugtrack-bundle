@@ -10,3 +10,8 @@ services:
       - '../../DependencyInjection/'
       - '../../Resources/'
       - '../../Installer/'
+
+  Quellwerke\QuellwerkeBugtrackBundle\Service\EmailService:
+    autowire: true
+    autoconfigure: true
+    public: true
