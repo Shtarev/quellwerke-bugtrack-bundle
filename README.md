@@ -7,7 +7,7 @@ After clicking this button, you will be able to describe the issue and send a re
 
 After submitting the request, you will receive a file with debug configurations (the download will start automatically). You can also forward this file to the support team.
 
-## Installation
+## Installation:
 (If you are using DDEV, first run: ddev ssh)
 ### 1. run the command
 ```
