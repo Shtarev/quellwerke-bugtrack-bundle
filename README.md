@@ -37,7 +37,7 @@ The bundle is installed in "vendor/quellwerke/quellwerke-bugtrack-bundle".
 php bin/console quellwerke:bugs:command
 ```
 
-### Check rout:
+### POST route for sending a message:
 ```
 www.yousite.com/admin/bugtrack/bugs
 ```
