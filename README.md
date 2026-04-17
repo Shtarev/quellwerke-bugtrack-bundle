@@ -29,7 +29,7 @@ composer require quellwerke/quellwerke-bugtrack-bundle:dev-master
 ```
 
 
-### 4. run the composer install
+### 4. Run the composer install
 ```
 composer install
 ```
