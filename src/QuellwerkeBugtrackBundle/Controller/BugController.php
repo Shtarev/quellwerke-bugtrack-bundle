@@ -15,6 +15,10 @@ class BugController extends AbstractController
     #[Route('/admin/bugtrack/bugs', name: 'admin_bugs', methods:['post'])]
     public function index(Request $request, EmailService $emailService): JsonResponse
     {
+        $projectRoot = dirname(__DIR__, 6);
+        $logFile = $projectRoot . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . 'dev-error.log';
+        $errors = $this->getLogErrorsLastHours($logFile, 2);
+
         $message = $request->request->get('value');
         $time = date('d-m-Y_H-i-s');
         $fileName = 'bug_message__' . $time . '.json';
@@ -25,7 +29,7 @@ class BugController extends AbstractController
             'fileName' => $fileName,
             'time' => $time,
             'result' => 'The request has been received and processed.',
-            'backLog' => $this->backLog(),
+            'backErrorLog' => $errors,
             'frontLog' => $this->frontLog($request)
         ];
 
@@ -53,16 +57,45 @@ class BugController extends AbstractController
     }
 
     /**
-     * Search for logs and errors in the system
-     * @return array
+     * Get the error log for a specified number of hours
+     * @param string $logFile number of hours
+     * @param int $hours 
+     * @return string[]
      */
-    private function backLog(): array
+    private function getLogErrorsLastHours(string $logFile, int $hours = 2): array
     {
-        return [
-            'bugLog_1' => 'text example 1',
-            'bugLog_2' => 'text example 2',
-            'bugLog_3' => 'text example 3'
-        ];
+        $result = [];
+        $threshold = new \DateTimeImmutable("-{$hours} hours");
+
+        if (!is_readable($logFile)) {
+            return $result;
+        }
+
+        $file = new \SplFileObject($logFile, 'r');
+
+        while (!$file->eof()) {
+            $line = $file->fgets();
+
+            if ($line === false || $line === '') {
+                continue;
+            }
+
+            if (!preg_match('/^\[(.*?)\]/', $line, $matches)) {
+                continue;
+            }
+
+            try {
+                $logTime = new \DateTimeImmutable($matches[1]);
+            } catch (\Exception $e) {
+                continue;
+            }
+
+            if ($logTime >= $threshold) {
+                $result[] = $line;
+            }
+        }
+
+        return $result;
     }
 
     /**
