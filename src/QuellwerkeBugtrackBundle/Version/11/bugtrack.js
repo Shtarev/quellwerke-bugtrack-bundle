@@ -1,5 +1,71 @@
 pimcore.registerNS("pimcore.plugin.myBundle");
 
+/* Frontend bug list */
+var originalError = console.error; 
+var originalErrorAdd = null;
+
+console.error = function (...args) {
+    originalError.apply(console, args);
+    originalErrorAdd = JSON.stringify({
+        errorLog: args.map(a => String(a)).join(' ')
+    });
+};
+
+function frontLog() {
+        let result = null
+        let itemType = null;
+        let id = null;
+        let tab = null;
+        let subTab = null;
+
+        let tabPanel = Ext.getCmp("pimcore_panel_tabs");
+        let activeTab = tabPanel.getActiveTab();
+
+        if(activeTab !== undefined) {
+
+            /* if object */
+            if(activeTab.object !== undefined) {
+                itemType = 'Object';
+                id = activeTab.object.id;
+            }
+
+            /* if asset */
+            if(activeTab.asset !== undefined) {
+                itemType = 'Asset';
+                id = activeTab.asset.id;
+            }
+
+            /* if document */
+            if(activeTab.document !== undefined) {
+                itemType = 'Document';
+                id = activeTab.document.id;
+            }
+
+            let innerTabPanel = activeTab.down("tabpanel");
+            let activeInnerTab = innerTabPanel.getActiveTab();
+            tab = activeInnerTab.title;
+
+            let innerTabPanelSub = activeInnerTab.down("tabpanel");
+            if(innerTabPanelSub !== null) {
+                let activeInnerTabSub = innerTabPanelSub.getActiveTab();
+                subTab = activeInnerTabSub.title;
+            }
+        }
+
+        result = JSON.stringify({
+            activeTab: {
+                itemType: itemType,
+                id: id,
+                tab: tab,
+                subTab: subTab
+            },
+            originalError: originalErrorAdd,
+        });
+
+        return result;
+};
+
+/* Button and submission */
 pimcore.plugin.myBundle = Class.create({
     initialize: function () {
         document.addEventListener(
@@ -64,7 +130,8 @@ pimcore.plugin.myBundle = Class.create({
                                     url: "/admin/bugtrack/bugs",
                                     method: "POST",
                                     params: {
-                                        value: values.my_input
+                                        value: values.my_input,
+                                        frontLog: frontLog() ////////////////
                                     },
                                     success: function (response) {
                                         let data = Ext.decode(response.responseText);
