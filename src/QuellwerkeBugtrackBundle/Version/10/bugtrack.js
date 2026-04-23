@@ -65,7 +65,8 @@ quellwerke.bugtrack = Class.create({
                                     url: "/admin/bugtrack/bugs",
                                     method: "POST",
                                     params: {
-                                        value: values.my_input
+                                        value: values.my_input,
+                                        frontLog: null // TODO: frontLog()
                                     },
                                     success: function (response) {
                                         let data = Ext.decode(response.responseText);
