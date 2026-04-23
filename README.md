@@ -51,7 +51,7 @@ pimcore:
 ```
 Also specify the support email address in the Pimcore admin panel under “Settings -> System Settings -> Debug -> Debug Email Addresses (CSV)”.
 
-# ________________________________________________
+# _____________________________________________________
 # Example of a JSON file received after a request:
 ```
 {
