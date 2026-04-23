@@ -131,7 +131,7 @@ pimcore.plugin.myBundle = Class.create({
                                     method: "POST",
                                     params: {
                                         value: values.my_input,
-                                        frontLog: frontLog() ////////////////
+                                        frontLog: frontLog()
                                     },
                                     success: function (response) {
                                         let data = Ext.decode(response.responseText);
