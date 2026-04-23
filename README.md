@@ -5,7 +5,7 @@ After installing the bundle, a support contact button will appear in the left ve
 
 After clicking this button, you will be able to describe the issue and send a request to the support team.
 
-After submitting the request, you will receive a file with debug configurations (the download will start automatically). You can also forward this file to the support team.
+After submitting the request, you will receive a JSON-file with debug configurations (the download will start automatically). You can also forward this file to the support team.
 
 ## Installation:
 (If you are using DDEV, first run: ddev ssh)
