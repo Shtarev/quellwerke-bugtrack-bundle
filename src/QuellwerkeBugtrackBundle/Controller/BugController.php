@@ -20,6 +20,7 @@ class BugController extends AbstractController
         $errors = $this->getLogErrorsLastHours($logFile, 2);
 
         $message = $request->request->get('value');
+        $frontLog = $this->deepJsonDecode($request->request->get('frontLog'));
         $time = date('d-m-Y_H-i-s');
         $fileName = 'bug_message__' . $time . '.json';
 
@@ -30,7 +31,7 @@ class BugController extends AbstractController
             'time' => $time,
             'result' => 'The request has been received and processed.',
             'backErrorLog' => $errors,
-            'frontLog' => $this->frontLog($request)
+            'frontLog' => $frontLog
         ];
 
         $emails = $this->debugEmails();
@@ -99,19 +100,6 @@ class BugController extends AbstractController
     }
 
     /**
-     * Search for logs and errors in the data received from the client
-     * @return array
-     */
-    private function frontLog($request): array
-    {
-        return [
-            'bugLog_1' => 'text example 1',
-            'bugLog_2' => 'text example 2',
-            'bugLog_3' => 'text example 3'
-        ];
-    }
-
-    /**
      * From System Settings, retrieve Debug Email Addresses (CSV)
      * @return array
      */
@@ -135,5 +123,20 @@ class BugController extends AbstractController
             $emails = array_filter(array_map('trim', explode(',', $emailsCsv)));
         }
         return $emails;
+    }
+
+    private function deepJsonDecode($value) {
+        if (is_string($value)) {
+            $decoded = json_decode($value, true);
+            return $decoded === null ? $value : $this->deepJsonDecode($decoded);
+        }
+
+        if (is_array($value)) {
+            foreach ($value as $k => $v) {
+                $value[$k] = $this->deepJsonDecode($v);
+            }
+        }
+
+        return $value;
     }
 }
