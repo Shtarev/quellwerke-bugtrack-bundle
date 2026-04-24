@@ -1,4 +1,4 @@
-# Quellwerke Bugtrack Bundle for Pimcor v10.* & v11.*
+# Quellwerke Bugtrack Bundle for Pimcore v10.* & v11.*
 
 ## Adding a button to the left menu of the admin panel with the functionality to send debug messages.
 After installing the bundle, a support contact button will appear in the left vertical menu in the admin panel.
