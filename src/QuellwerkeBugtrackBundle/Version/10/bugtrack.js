@@ -1,9 +1,9 @@
 pimcore.registerNS("quellwerke.bugtrack");
 
 /* Frontend bug list */
-var originalError = console.error; 
-var originalErrorAdd = null;
+var originalError = console.error;
 
+// var originalErrorAdd = null;
 // console.error = function (...args) {
 //     originalError.apply(console, args);
 //     originalErrorAdd = JSON.stringify({
