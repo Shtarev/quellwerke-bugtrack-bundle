@@ -160,6 +160,7 @@ pimcore.plugin.myBundle = Class.create({
                                         a.click();
 
                                         URL.revokeObjectURL(url);
+                                        originalErrorAdd.errorLog = [];
                                     }
                                 });
                                 
