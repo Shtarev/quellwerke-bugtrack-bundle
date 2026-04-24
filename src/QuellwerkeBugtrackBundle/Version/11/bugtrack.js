@@ -4,11 +4,20 @@ pimcore.registerNS("pimcore.plugin.myBundle");
 var originalError = console.error; 
 var originalErrorAdd = null;
 
+// console.error = function (...args) {
+//     originalError.apply(console, args);
+//     originalErrorAdd = JSON.stringify({
+//         errorLog: args.map(a => String(a)).join(' ')
+//     });
+// };
+
+var originalErrorAdd = { errorLog: [] };
 console.error = function (...args) {
     originalError.apply(console, args);
-    originalErrorAdd = JSON.stringify({
-        errorLog: args.map(a => String(a)).join(' ')
-    });
+
+    originalErrorAdd.errorLog.push(
+        args.map(a => String(a)).join(' ')
+    );
 };
 
 function frontLog() {
