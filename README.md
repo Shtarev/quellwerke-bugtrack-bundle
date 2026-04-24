@@ -78,6 +78,7 @@ Also specify the support email address in the Pimcore admin panel under “Setti
 }
 ```
 
+* `"status"`: request processing status for the frontend
 * `"message"`: client message
 * `"fileName"`: file name
 * `"time"`: request time
